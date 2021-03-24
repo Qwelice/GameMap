@@ -26,7 +26,6 @@ namespace GameMap_WinForms_
         private void panel_Paint(object sender, PaintEventArgs e)
         {
             map.DrawMap(panel.CreateGraphics(), panel.Width, panel.Height);
-            Debug.WriteLine(map.Width);
         }
 
         private void Form1_Resize(object sender, EventArgs e)

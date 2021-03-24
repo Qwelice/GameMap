@@ -76,8 +76,7 @@ namespace GameMap_WinForms_
                     for(int j = 0; j < _width; j++)
                     {
                         int index = i * _width + j;
-                        var str = Convert.ToInt32(result[index].ToString());
-                        map[index] = str;
+                        map[index] = Convert.ToInt32(result[index].ToString());
                     }
                 }
             }
