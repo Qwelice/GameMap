@@ -42,8 +42,8 @@ namespace GameMap_WinForms_
         public void DrawMap(Graphics g, int panelWidth, int panelHeight)
         {
             g.Clear(Color.White);
-            int blockWidth = panelWidth / _width;
-            int blockHeight = panelHeight / _height;
+            float blockWidth = (panelWidth * 1.0f) / _width;
+            float blockHeight = (panelHeight * 1.0f) / _height;
             var pos = new PointF(0f, 0f);
             var b = new SolidBrush(Color.White);
             var p = new Pen(b);
