@@ -41,17 +41,22 @@ namespace GameMap_WinForms_
 
         public void DrawMap(Graphics g, int panelWidth, int panelHeight)
         {
-            float blockWidth = panelWidth / _width;
-            float blockHeight = panelHeight / _height;
+            g.Clear(Color.White);
+            int blockWidth = panelWidth / _width;
+            int blockHeight = panelHeight / _height;
             var pos = new PointF(0f, 0f);
             var b = new SolidBrush(Color.White);
+            var p = new Pen(b);
             for (int i = 0; i < _height; i++)
             {
                 for (int j = 0; j < _width; j++)
                 {
                     if (map[i * _width + j] == 1) b.Color = Color.Black;
                     else b.Color = Color.White;
-                    g.FillRectangle(b, new RectangleF(pos, new SizeF(blockWidth, blockHeight)));
+                    var rect = new RectangleF(pos, new SizeF(blockWidth, blockHeight));
+                    g.FillRectangle(b, rect);
+                    p.Color = Color.Blue;
+                    g.DrawRectangle(p, rect.X, rect.Y, rect.Width, rect.Height);
                     pos.X += blockWidth;
                 }
                 pos.X = 0;

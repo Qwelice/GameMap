@@ -32,5 +32,10 @@ namespace GameMap_WinForms_
         {
             map.DrawMap(panel.CreateGraphics(), panel.Width, panel.Height);
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
