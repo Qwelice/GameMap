@@ -21,21 +21,13 @@ namespace GameMap_WinForms_
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             var path = Directory.GetCurrentDirectory() + @"\Map.txt";
             map = new Map(path);
+            MinimumSize = Size;
+            MaximumSize = MinimumSize;
         }
 
-        private void panel_Paint(object sender, PaintEventArgs e)
+        private void OnPaint(object sender, PaintEventArgs e)
         {
-            map.DrawMap(panel.CreateGraphics(), panel.Width, panel.Height);
-        }
-
-        private void Form1_Resize(object sender, EventArgs e)
-        {
-            map.DrawMap(panel.CreateGraphics(), panel.Width, panel.Height);
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            
+            map.DrawMap(e.Graphics, e.ClipRectangle.Width, e.ClipRectangle.Height);
         }
     }
 }

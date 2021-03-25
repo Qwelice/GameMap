@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.IO;
-using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace GameMap_WinForms_
 {
@@ -22,8 +22,8 @@ namespace GameMap_WinForms_
             {
                 1, 1, 1, 1, 1, 1,
                 1, 0, 0, 1, 0, 1,
-                1, 0, 0, 0, 0, 1,
-                1, 0, 0, 0, 0, 1,
+                1, 0, 0, 0, 1, 1,
+                1, 0, 1, 0, 0, 1,
                 1, 1, 1, 1, 1, 1,
             };
             _width = 6;
@@ -45,23 +45,49 @@ namespace GameMap_WinForms_
             float blockWidth = (panelWidth * 1.0f) / _width;
             float blockHeight = (panelHeight * 1.0f) / _height;
             var pos = new PointF(0f, 0f);
-            var b = new SolidBrush(Color.White);
-            var p = new Pen(b);
+            Image wall = makeBlock(BlockType.Wall, blockWidth, blockHeight);
+            Image floor = makeBlock(BlockType.Floor, blockWidth, blockHeight);
             for (int i = 0; i < _height; i++)
             {
                 for (int j = 0; j < _width; j++)
                 {
-                    if (map[i * _width + j] == 1) b.Color = Color.Black;
-                    else b.Color = Color.White;
-                    var rect = new RectangleF(pos, new SizeF(blockWidth, blockHeight));
-                    g.FillRectangle(b, rect);
-                    p.Color = Color.Blue;
-                    g.DrawRectangle(p, rect.X, rect.Y, rect.Width, rect.Height);
+                    if (map[i * _width + j] == 1)
+                        g.DrawImage(wall, pos.X, pos.Y);
+                    else
+                        g.DrawImage(floor, pos.X, pos.Y);
                     pos.X += blockWidth;
                 }
                 pos.X = 0;
                 pos.Y += blockHeight;
             }
+        }
+
+        private Bitmap makeBlock(BlockType type, float blockWidth, float blockHeight)
+        {
+            return makeBlock(type, (int)blockWidth, (int)blockHeight);
+        }
+
+        private Bitmap makeBlock(BlockType type, int blockWidth, int blockHeight)
+        {
+            var block = new Bitmap(blockWidth, blockHeight);
+            var gBlock = Graphics.FromImage(block);
+            var b = new SolidBrush(Color.White);
+            var p = new Pen(Color.Blue, 2.2f);
+            switch (type)
+            {
+                case BlockType.Floor:
+                    b.Color = Color.White;
+                    break;
+                case BlockType.Wall:
+                    b.Color = Color.Black;
+                    break;
+
+                default:
+                    break;
+            }
+            gBlock.FillRectangle(b, 0, 0, blockWidth, blockHeight);
+            gBlock.DrawRectangle(p, 0, 0, blockWidth, blockHeight);
+            return block;
         }
 
         private void GetMap(string path)
