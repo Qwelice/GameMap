@@ -9,11 +9,16 @@ using System.Windows.Forms;
 
 namespace GameMap_WinForms_
 {
+    /// <summary>
+    /// Класс отрисовывающий карту
+    /// </summary>
     class Map
     {
+        // размеры карты
         private int _width = 0;
         private int _height = 0;
 
+        // массив, содержащий информацию о карте
         private int[] map;
 
         public Map()
@@ -39,20 +44,39 @@ namespace GameMap_WinForms_
 
         public int Height { get => _height; }
 
+        /// <summary>
+        /// Метод, рисующий карту
+        /// </summary>
+        /// <param name="g"> графический контекст, которым будет рисоваться карта </param>
+        /// <param name="panelWidth"> ширина области, на которой будет нарисована карта </param>
+        /// <param name="panelHeight"> высота области, на которой будет нарисована карта </param>
         public void DrawMap(Graphics g, int panelWidth, int panelHeight)
         {
+            // очищаем область
             g.Clear(Color.White);
+
+            // вычисляем ширину и высоту блока карты
             float blockWidth = (panelWidth * 1.0f) / _width;
             float blockHeight = (panelHeight * 1.0f) / _height;
+
+            // изначальная позиция, относительно которой будут рисоваться блоки
             var pos = new PointF(0f, 0f);
+
+            // изображение блока стены
             Image wall = makeBlock(BlockType.Wall, blockWidth, blockHeight);
+
+            // изображение блока пола
             Image floor = makeBlock(BlockType.Floor, blockWidth, blockHeight);
+
+
             for (int i = 0; i < _height; i++)
             {
                 for (int j = 0; j < _width; j++)
                 {
-                    if (map[i * _width + j] == 1)
+                    // если блок карты больше 0, то это стена
+                    if (map[i * _width + j] > 0)
                         g.DrawImage(wall, pos.X, pos.Y);
+                    // иначе это пол
                     else
                         g.DrawImage(floor, pos.X, pos.Y);
                     pos.X += blockWidth;
